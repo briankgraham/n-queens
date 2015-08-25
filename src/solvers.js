@@ -52,24 +52,49 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution =[];
-  var temp = new Board({'n':n});
-  for (var row = 0; row < n; row++) {
-    for (var col = 0; col < n; col++) {
-      if(i === 2 || i )
-      temp.togglePiece(row, col);
-      if (temp.hasAnyQueenConflictsOn(row, col)) {
-        temp.togglePiece(row,col);
-      } 
+  var solution;
+  if(n === 0) {
+    return [];
+  }  
+
+  var findSolution = function(startCol) {
+    // debugger;
+    if(startCol === n) {
+      return temp.rows();
     }
-  }
-  for (var i = 0; i < n; i++) {
-    solution.push(temp.attributes[i]);
-  }
-  //console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
+    //Creat new board object of nxn and assign it to temp variable
+    var temp = new Board({'n':n});
+    //Toggle piece at start row & columns which starts at index 0, 0
+    temp.togglePiece(0, startCol);
+    //Iterate through the remainder of the board starting at row at index 1
+    for(var row = 1; row < n; row++) {
+      //Iterate through the each column of each row
+      for (var col = 0; col < n; col++) {
+        //Change the value of cell 1,0 from 0 to 1 or to having a queen
+        temp.togglePiece(row, col);
+        //If this specific row, col cell has a queens conflict 
+        console.log('row index = ' + row, 'col index = ' + col, 'row array = ' + temp.rows()[row], 'n = ' + n, 'startCol = ' + startCol)
+        console.log('Queens Conflict : ' + temp.hasAnyQueenConflictsOn(row, col))
+        if (temp.hasAnyQueenConflictsOn(row, col)) {
+          //Revert the value of cell at index row,col to 0 or to have no queen
+          temp.togglePiece(row,col);
+        } 
+      }
+      console.log('row index = ' + row, 'row array = ' + temp.rows()[row], 'n = ' + n, 'startCol = ' + startCol)
+      //Check if the current row does not have the value 1
+      if(temp.rows()[row].indexOf(1) === -1 && (startCol + 1) < n) {
+        //Recursively run the findSolution function with an incresed start column
+        findSolution(startCol + 1);
+      }
+    }
+    return temp.rows();
+  };
+  solution = findSolution(0);
+  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
 
+window.findNQueensSolution(8);
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
@@ -78,3 +103,5 @@ window.countNQueensSolutions = function(n) {
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
+
+
