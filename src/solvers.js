@@ -59,9 +59,9 @@ window.findNQueensSolution = function(n) {
 
   var findSolution = function(startCol) {
     // debugger;
-    if(startCol === n) {
-      return temp.rows();
-    }
+    // if(startCol === n) {
+    //   return temp.rows();
+    // }
     //Creat new board object of nxn and assign it to temp variable
     var temp = new Board({'n':n});
     //Toggle piece at start row & columns which starts at index 0, 0
@@ -73,14 +73,12 @@ window.findNQueensSolution = function(n) {
         //Change the value of cell 1,0 from 0 to 1 or to having a queen
         temp.togglePiece(row, col);
         //If this specific row, col cell has a queens conflict 
-        console.log('row index = ' + row, 'col index = ' + col, 'row array = ' + temp.rows()[row], 'n = ' + n, 'startCol = ' + startCol)
-        console.log('Queens Conflict : ' + temp.hasAnyQueenConflictsOn(row, col))
         if (temp.hasAnyQueenConflictsOn(row, col)) {
           //Revert the value of cell at index row,col to 0 or to have no queen
           temp.togglePiece(row,col);
         } 
       }
-      console.log('row index = ' + row, 'row array = ' + temp.rows()[row], 'n = ' + n, 'startCol = ' + startCol)
+        console.log('row index = ' + row, 'col index = ' + col, 'row array = ' + temp.rows()[row], 'n = ' + n, 'startCol = ' + startCol)
       //Check if the current row does not have the value 1
       if(temp.rows()[row].indexOf(1) === -1 && (startCol + 1) < n) {
         //Recursively run the findSolution function with an incresed start column
