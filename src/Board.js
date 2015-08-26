@@ -127,7 +127,9 @@
     hasAnyColConflicts: function() {
       var boardVals = this.rows();
       for (var i = 0; i < boardVals.length; i++) {
-        if (this.hasColConflictAt(boardVals[i][0])) return true;
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
       }
       return false;
     },
